@@ -64,8 +64,6 @@ import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.common.crafting.CompoundIngredient;
-import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -81,7 +79,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.network.SimpleChannel;
 import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -107,7 +105,7 @@ public final class Blueprint {
 	public static final RegistryHelper REGISTRY_HELPER = new RegistryHelper(MOD_ID);
 	public static final TrackedData<Byte> SLABFISH_SETTINGS = TrackedData.Builder.create(DataProcessors.BYTE, () -> (byte) 8).enablePersistence().build();
 
-	public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(MOD_ID, "net"))
+	public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder.named(ResourceLocation.fromNamespaceAndPath(MOD_ID, "net"))
 			.networkProtocolVersion(() -> NETWORK_PROTOCOL)
 			.clientAcceptedVersions(NETWORK_PROTOCOL::equals)
 			.serverAcceptedVersions(NETWORK_PROTOCOL::equals)
@@ -180,7 +178,7 @@ public final class Blueprint {
 	}
 
 	private void commonSetup(FMLCommonSetupEvent event) {
-		TrackedDataManager.INSTANCE.registerData(new ResourceLocation(MOD_ID, "slabfish_head"), SLABFISH_SETTINGS);
+		TrackedDataManager.INSTANCE.registerData(ResourceLocation.fromNamespaceAndPath(MOD_ID, "slabfish_head"), SLABFISH_SETTINGS);
 
 		Set<Block> validBlocks = Sets.newHashSet(BlockEntityType.CHISELED_BOOKSHELF.validBlocks);
 		validBlocks.addAll(Sets.newHashSet(BlockEntitySubRegistryHelper.collectBlocks(BlueprintChiseledBookShelfBlock.class)));
